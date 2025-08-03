@@ -150,20 +150,36 @@ function main() {
     let angle = 0;
   
     function render() {
-      gl.clearColor(0, 0, 0, 1);
-      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-      gl.enable(gl.DEPTH_TEST);
-  
-      angle += 1;
-      const modelViewMatrix = createMatrix(angle);
-  
-      gl.uniformMatrix4fv(uModelViewMatrix, false, modelViewMatrix);
-      gl.uniformMatrix4fv(uProjectionMatrix, false, projectionMatrix);
-  
-      gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
-  
-      requestAnimationFrame(render);
-    }
+        gl.clearColor(0, 0, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        gl.enable(gl.DEPTH_TEST);
+      
+        gl.useProgram(shaderProgram); // Ensure the correct program is active
+      
+        // Rebind position buffer
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.enableVertexAttribArray(aPosition);
+        gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
+      
+        // Rebind color buffer
+        gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+        gl.enableVertexAttribArray(aColor);
+        gl.vertexAttribPointer(aColor, 4, gl.FLOAT, false, 0, 0);
+      
+        // Rebind index buffer
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+      
+        angle += 1;
+        const modelViewMatrix = createMatrix(angle);
+      
+        gl.uniformMatrix4fv(uModelViewMatrix, false, modelViewMatrix);
+        gl.uniformMatrix4fv(uProjectionMatrix, false, projectionMatrix);
+      
+        gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+      
+        requestAnimationFrame(render);
+      }
+      
   
     render();
   }
