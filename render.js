@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded", main);
+
 function main() {
     const canvas = document.getElementById("glCanvas");
     const gl = canvas.getContext("webgl");
