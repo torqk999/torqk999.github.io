@@ -139,13 +139,28 @@ function main() {
         0,   0, -5,   1
       ]);
     }
+
+    function ortho(left, right, bottom, top, near, far) {
+        return new Float32Array([
+          2 / (right - left), 0, 0, 0,
+          0, 2 / (top - bottom), 0, 0,
+          0, 0, -2 / (far - near), 0,
+          -(right + left) / (right - left),
+          -(top + bottom) / (top - bottom),
+          -(far + near) / (far - near),
+          1
+        ]);
+      }
+      
   
-    const projectionMatrix = new Float32Array([
+    const projectionMatrix = ortho(-2,2,-2,2,-2,2);
+    
+    /*new Float32Array([
       2 / canvas.width, 0, 0, 0,
       0, -2 / canvas.height, 0, 0,
       0, 0, -1, 0,
       -1, 1, 0, 1
-    ]);
+    ]);*/
   
     let angle = 0;
   
