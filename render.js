@@ -61,6 +61,7 @@ function main() {
     }
   
     gl.useProgram(shaderProgram);
+    gl.enable(gl.DEPTH_TEST);
   
     const aPosition = gl.getAttribLocation(shaderProgram, "aPosition");
     const aColor = gl.getAttribLocation(shaderProgram, "aColor");
@@ -136,7 +137,7 @@ function main() {
         cos, 0, sin, 0,
         0,   1, 0,   0,
        -sin,0, cos, 0,
-        0,   0, -5,   1
+        0,   0, -6,   1
       ]);
     }
 
@@ -152,8 +153,23 @@ function main() {
         ]);
       }
       
+      function perspective(fov, aspect, near, far) {
+        const f = 1.0 / Math.tan(fov / 2);
+        const nf = 1 / (near - far);
+      
+        return new Float32Array([
+          f / aspect, 0, 0, 0,
+          0, f, 0, 0,
+          0, 0, (far + near) * nf, -1,
+          0, 0, (2 * far * near) * nf, 0
+        ]);
+      }
+    
+      const aspect = canvas.width / canvas.height;
   
-    const projectionMatrix = ortho(-2,2,-2,2,-2,2);
+    const projectionMatrix = perspective(Math.PI / 4,  aspect, 0.1, 100);
+    
+    //ortho(-2,2,-2,2,-2,2);
     
     /*new Float32Array([
       2 / canvas.width, 0, 0, 0,
