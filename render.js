@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", main);
 
 function main() {
     const canvas = document.getElementById("glCanvas");
-    const gl = canvas.getContext("webgl");
+    const gl = canvas.getContext("webgl", {depth: true});
   
     if (!gl) {
       alert("WebGL not supported");
